@@ -1,7 +1,23 @@
 from django.shortcuts import render
+from .models import Library
 from relationship_app.models import Book
 
 # Function-based view to list all books
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+
+# Custom registration view
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # Redirect to login after successful registration
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
 def list_books(request):
     books = Book.objects.all()  # Get all books from the database
     return render(request, 'relationship_app/list_books.html', {'books': books})
