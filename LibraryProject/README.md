@@ -1,3 +1,2 @@
 # LibraryProject  
-A basic Django project created as part of the ALX Django Learn Lab.
-
+**A basic Django project created as part of the ALX Django Learn Lab**
