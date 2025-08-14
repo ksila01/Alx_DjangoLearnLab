@@ -1,0 +1,17 @@
+# Django core
+Django>=4.2,<5.0
+
+# Django REST Framework for API development
+djangorestframework>=3.14,<4.0
+
+# Django Filter for Task 2 filtering/searching/ordering
+django-filter>=23.2,<24.0
+
+# Optional: for running database migrations and management commands
+pytz>=2023.3
+
+# Optional: for parsing environment variables (if needed in the future)
+python-decouple>=3.8
+
+# Optional: for testing API requests
+requests>=2.32

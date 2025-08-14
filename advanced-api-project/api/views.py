@@ -1,5 +1,6 @@
 from rest_framework import viewsets, generics, filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Author, Book
 from .serializers import AuthorSerializer, BookSerializer
 
@@ -7,76 +8,66 @@ from .serializers import AuthorSerializer, BookSerializer
 # AUTHOR VIEWSET (Task 0)
 # -----------------------------
 class AuthorViewSet(viewsets.ModelViewSet):
-    """
-    Provides CRUD operations for Author model.
-    """
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Anyone can read; only authenticated can modify
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 # -----------------------------
 # BOOK VIEWSET (Task 0)
 # -----------------------------
 class BookViewSet(viewsets.ModelViewSet):
-    """
-    Provides CRUD operations for Book model.
-    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 # -----------------------------
-# GENERIC VIEWS FOR BOOK (Task 1)
+# GENERIC VIEWS FOR BOOK (Task 1 & 2)
 # -----------------------------
 
-# List all books (searchable)
 class BookListView(generics.ListAPIView):
     """
-    Lists all books and allows search by title or author name.
-    Read-only for unauthenticated users.
+    Lists all books with filtering, searching, and ordering capabilities.
+    
+    Features:
+    - Filter by title, author, and publication_year
+    - Search by title or author name
+    - Order by title or publication_year
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [filters.SearchFilter]
+    
+    # Filtering backend
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    
+    # Fields available for filtering
+    filterset_fields = ['title', 'author__name', 'publication_year']
+    
+    # Fields available for searching
     search_fields = ['title', 'author__name']
+    
+    # Fields available for ordering
+    ordering_fields = ['title', 'publication_year']
+    
+    # Default ordering if not specified by user
+    ordering = ['title']
 
-# Retrieve a single book by ID
 class BookDetailView(generics.RetrieveAPIView):
-    """
-    Retrieve a single book by its ID.
-    Read-only for unauthenticated users.
-    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-# Create a new book
 class BookCreateView(generics.CreateAPIView):
-    """
-    Create a new book.
-    Only accessible to authenticated users.
-    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
 
-# Update an existing book
 class BookUpdateView(generics.UpdateAPIView):
-    """
-    Update an existing book.
-    Only accessible to authenticated users.
-    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
 
-# Delete a book
 class BookDeleteView(generics.DestroyAPIView):
-    """
-    Delete a book.
-    Only accessible to authenticated users.
-    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
