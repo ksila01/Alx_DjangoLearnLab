@@ -1,22 +1,22 @@
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',  # Ensure this is included
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-     'accounts',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",  # Ensure this is included
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "accounts",
     # Add your other apps here
 ]
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = "accounts.CustomUser"
 DEBUG = False
-ALLOWED_HOSTS = ['sila.com']  # Replace with your domain or IP addresses
+ALLOWED_HOSTS = ["sila.com"]  # Replace with your domain or IP addresses
 
 # Enable XSS filtering in browsers
 SECURE_BROWSER_XSS_FILTER = True
 
 # Prevent clickjacking by blocking rendering on other sites
-X_FRAME_OPTIONS = 'DENY'
+X_FRAME_OPTIONS = "DENY"
 
 # Prevent browsers from interpreting files as something else (e.g., from HTML to JSON)
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -44,7 +44,7 @@ SESSION_COOKIE_SECURE = True
 # Ensure CSRF cookies are only sent over HTTPS
 CSRF_COOKIE_SECURE = True
 # Prevent clickjacking by blocking your site from being framed
-X_FRAME_OPTIONS = 'DENY'
+X_FRAME_OPTIONS = "DENY"
 
 # Prevent browsers from MIME-sniffing a response away from the declared content-type
 SECURE_CONTENT_TYPE_NOSNIFF = True
