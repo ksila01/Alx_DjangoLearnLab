@@ -6,6 +6,8 @@ from django.db.models import Q
 
 from .models import Post, Comment, Tag
 from .forms import PostForm, CommentForm
+from taggit.forms import TagWidget
+
 
 # -----------------------------
 # Task 0: Index
@@ -118,6 +120,13 @@ def posts_by_tag(request, tag_name):
     tag = get_object_or_404(Tag, name=tag_name)
     posts = tag.posts.all()
     return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']  # include 'tags'
+        widgets = {
+            'tags': TagWidget(),  # add this line
+        }
 
 
 
