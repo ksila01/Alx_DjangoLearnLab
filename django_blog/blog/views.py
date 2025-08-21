@@ -167,3 +167,17 @@ def search_posts(request):
         Q(tags__name__icontains=query)
     ).distinct()
     return render(request, 'blog/post_list.html', {'posts': posts, 'query': query})
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'  # reuse your post_list template
+    context_object_name = 'posts'
+    paginate_by = 5
+
+    def get_queryset(self):
+        self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
+        return Post.objects.filter(tags__in=[self.tag]).order_by('-published_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.tag
+        return context

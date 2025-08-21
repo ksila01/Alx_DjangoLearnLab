@@ -4,6 +4,8 @@ from django import forms
 from .models import Post, Comment
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .views import PostByTagListView
+
 
 
 urlpatterns = [
@@ -21,4 +23,6 @@ urlpatterns = [
     path('post/<int:post_id>/comments/new/', views.CommentCreateView.as_view(), name='comment_create'),
     path('comment/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment_update'),
     path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment_delete'),
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='posts_by_tag'),
+
 ]
