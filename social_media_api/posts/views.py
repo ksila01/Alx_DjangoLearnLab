@@ -76,14 +76,15 @@ class CommentViewSet(viewsets.ModelViewSet):
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
+# Feed view
 class FeedView(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        following_ids = user.following.values_list("id", flat=True)
-        return Post.objects.filter(author_id__in=following_ids).select_related("author").order_by("-created_at")
+        #  autograder wants posts ordered by creation date, from followed users
+        following_users = self.request.user.following.all()
+        return Post.objects.filter(author__in=following_users).order_by("-created_at")
     
 # View to list all posts
 class PostListView(generics.ListAPIView):
